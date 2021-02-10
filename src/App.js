@@ -21,8 +21,8 @@ const AppWrapper = styled.div`
 function App() {
   return (
     <AppWrapper>
-      <PadsWrapper>PADS</PadsWrapper>
-      <MenuWrapper>MENU</MenuWrapper>
+      <PadsWrapper /> 
+      <MenuWrapper />
     </AppWrapper>
   );
 }
