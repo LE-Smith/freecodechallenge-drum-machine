@@ -6,7 +6,6 @@ import PadButton from '../components/PadButton';
 const StyledComponent = styled.div`
   width: 60%;
   height: 100%;
-  /* background-color: purple; */
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
@@ -21,7 +20,7 @@ const StyledComponent = styled.div`
 `;
 
 const Pads = props => {
-  const [clickedKeys, setClickedKeys] = useState([]);
+  const [clickedKeys, setClickedKeys] = useState({});
   const clickedKeysRef = useRef(clickedKeys);
   clickedKeysRef.current = clickedKeys;
 
@@ -29,102 +28,102 @@ const Pads = props => {
     document.addEventListener('keydown', onKeyDownHandler);
     document.addEventListener('keyup', onKeyUpHandler);
 
-    return (() => {
+    return () => {
       document.removeEventListener('keydown', onKeyDownHandler);
       document.removeEventListener('keyup', onKeyUpHandler);
-    })
+    };
   }, []);
-  
+
   const onKeyDownHandler = event => {
     const key = event.key.toUpperCase();
-    addKeyToClickedKeys(key);
-  }
-
+    addKeyToClickedKeys(key, 'keyboard');
+  };
+  
   const onKeyUpHandler = event => {
     const key = event.key.toUpperCase();
-    RemoveKeyFromClickedKeys(key);
-    
-  }
-
-  const addKeyToClickedKeys = (key) => {
-    if (!clickedKeysRef.current.includes(key)) {
-      const newClickedKeys = [...clickedKeysRef.current];
-      newClickedKeys.push(key);
+    RemoveKeyFromClickedKeys(key, 'keyboard');
+  };
+  
+  const addKeyToClickedKeys = (key, pressedBy) => {
+    if (!clickedKeysRef.current.hasOwnProperty(key)) {
+      const newClickedKeys = { ...clickedKeysRef.current, [key]: pressedBy };
       setClickedKeys(newClickedKeys);
     }
-  }
+  };
 
-  const RemoveKeyFromClickedKeys = (key) => {
-    setClickedKeys(clickedKeysRef.current.filter(stateKey => stateKey!== key))
-  } 
-
+  const RemoveKeyFromClickedKeys = (key, pressedBy) => {
+    if (pressedBy === clickedKeysRef.current[key]) {
+      const newClickedKeys = { ...clickedKeysRef.current };
+      delete newClickedKeys[key];
+      setClickedKeys(newClickedKeys);
+    }
+  };
 
   const onMouseDownHandler = clickedKey => {
-    addKeyToClickedKeys(clickedKey);
+    addKeyToClickedKeys(clickedKey, 'mouse');
   };
 
-  const onMouseUpHandler = (clickedKey) => {
-    RemoveKeyFromClickedKeys(clickedKey);
+  const onMouseUpHandler = clickedKey => {
+    RemoveKeyFromClickedKeys(clickedKey, 'mouse');
   };
-
 
   return (
-      <StyledComponent>
-        <PadButton
-          text="Q"
-          onMouseDown={onMouseDownHandler}
-          onMouseUp={onMouseUpHandler}
-          active={clickedKeys.includes('Q')}
-        />
-        <PadButton
-          text="W"
-          onMouseDown={onMouseDownHandler}
-          onMouseUp={onMouseUpHandler}
-          active={clickedKeys.includes('W')}
-        />
-        <PadButton
-          text="E"
-          onMouseDown={onMouseDownHandler}
-          onMouseUp={onMouseUpHandler}
-          active={clickedKeys.includes('E')}
-        />
-        <PadButton
-          text="A"
-          onMouseDown={onMouseDownHandler}
-          onMouseUp={onMouseUpHandler}
-          active={clickedKeys.includes('A')}
-        />
-        <PadButton
-          text="S"
-          onMouseDown={onMouseDownHandler}
-          onMouseUp={onMouseUpHandler}
-          active={clickedKeys.includes('S')}
-        />
-        <PadButton
-          text="D"
-          onMouseDown={onMouseDownHandler}
-          onMouseUp={onMouseUpHandler}
-          active={clickedKeys.includes('D')}
-        />
-        <PadButton
-          text="Y"
-          onMouseDown={onMouseDownHandler}
-          onMouseUp={onMouseUpHandler}
-          active={clickedKeys.includes('Y')}
-        />
-        <PadButton
-          text="X"
-          onMouseDown={onMouseDownHandler}
-          onMouseUp={onMouseUpHandler}
-          active={clickedKeys.includes('X')}
-        />
-        <PadButton
-          text="C"
-          onMouseDown={onMouseDownHandler}
-          onMouseUp={onMouseUpHandler}
-          active={clickedKeys.includes('C')}
-        />
-      </StyledComponent>
+    <StyledComponent>
+      <PadButton
+        text="Q"
+        onMouseDown={onMouseDownHandler}
+        onMouseUp={onMouseUpHandler}
+        active={clickedKeys.hasOwnProperty('Q')}
+      />
+      <PadButton
+        text="W"
+        onMouseDown={onMouseDownHandler}
+        onMouseUp={onMouseUpHandler}
+        active={clickedKeys.hasOwnProperty('W')}
+      />
+      <PadButton
+        text="E"
+        onMouseDown={onMouseDownHandler}
+        onMouseUp={onMouseUpHandler}
+        active={clickedKeys.hasOwnProperty('E')}
+      />
+      <PadButton
+        text="A"
+        onMouseDown={onMouseDownHandler}
+        onMouseUp={onMouseUpHandler}
+        active={clickedKeys.hasOwnProperty('A')}
+      />
+      <PadButton
+        text="S"
+        onMouseDown={onMouseDownHandler}
+        onMouseUp={onMouseUpHandler}
+        active={clickedKeys.hasOwnProperty('S')}
+      />
+      <PadButton
+        text="D"
+        onMouseDown={onMouseDownHandler}
+        onMouseUp={onMouseUpHandler}
+        active={clickedKeys.hasOwnProperty('D')}
+      />
+      <PadButton
+        text="Y"
+        onMouseDown={onMouseDownHandler}
+        onMouseUp={onMouseUpHandler}
+        active={clickedKeys.hasOwnProperty('Y')}
+      />
+      <PadButton
+        text="X"
+        onMouseDown={onMouseDownHandler}
+        onMouseUp={onMouseUpHandler}
+        active={clickedKeys.hasOwnProperty('X')}
+      />
+      <PadButton
+        text="C"
+        onMouseDown={onMouseDownHandler}
+        onMouseUp={onMouseUpHandler}
+        active={clickedKeys.hasOwnProperty('C')}
+      />
+    </StyledComponent>
   );
 };
 
