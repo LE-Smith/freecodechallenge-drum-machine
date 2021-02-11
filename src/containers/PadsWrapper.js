@@ -12,10 +12,7 @@ const StyledComponent = styled.div`
   align-items: center;
   flex-wrap: wrap;
   padding: 10px;
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+/Edge */
-  user-select: none; /* Standard */
+  user-select: none;
 
   @media (max-width: 650px) {
     width: 100%;
@@ -27,8 +24,33 @@ const Pads = props => {
   const [clickedKeys, setClickedKeys] = useState({});
   const clickedKeysRef = useRef(clickedKeys);
   clickedKeysRef.current = clickedKeys;
+  
+  const addKeyToClickedKeys = (key, pressedBy) => {
+    const newClickedKeys = { ...clickedKeysRef.current, [key]: pressedBy };
+    setClickedKeys(newClickedKeys);
+  };
+  
+  const RemoveKeyFromClickedKeys = key => {
+    const newClickedKeys = { ...clickedKeysRef.current };
+    delete newClickedKeys[key];
+    setClickedKeys(newClickedKeys);
+  };
 
   useEffect(() => {
+    const onKeyDownHandler = event => {
+      const key = event.key.toUpperCase();
+      if (!clickedKeysRef.current.hasOwnProperty(key)) {
+        addKeyToClickedKeys(key, 'keyboard');
+      }
+    };
+
+    const onKeyUpHandler = event => {
+      const key = event.key.toUpperCase();
+      if (clickedKeysRef.current[key] === 'keyboard') {
+        RemoveKeyFromClickedKeys(key);
+      }
+    };
+
     document.addEventListener('keydown', onKeyDownHandler);
     document.addEventListener('keyup', onKeyUpHandler);
 
@@ -38,37 +60,16 @@ const Pads = props => {
     };
   }, []);
 
-  const onKeyDownHandler = event => {
-    const key = event.key.toUpperCase();
-    addKeyToClickedKeys(key, 'keyboard');
-  };
-
-  const onKeyUpHandler = event => {
-    const key = event.key.toUpperCase();
-    RemoveKeyFromClickedKeys(key, 'keyboard');
-  };
-
-  const addKeyToClickedKeys = (key, pressedBy) => {
+  const onMouseDownHandler = key => {
     if (!clickedKeysRef.current.hasOwnProperty(key)) {
-      const newClickedKeys = { ...clickedKeysRef.current, [key]: pressedBy };
-      setClickedKeys(newClickedKeys);
+      addKeyToClickedKeys(key, 'mouse');
     }
   };
 
-  const RemoveKeyFromClickedKeys = (key, pressedBy) => {
-    if (pressedBy === clickedKeysRef.current[key]) {
-      const newClickedKeys = { ...clickedKeysRef.current };
-      delete newClickedKeys[key];
-      setClickedKeys(newClickedKeys);
+  const onMouseUpOrLeaveHandler = key => {
+    if (clickedKeysRef.current[key] === 'mouse') {
+      RemoveKeyFromClickedKeys(key);
     }
-  };
-
-  const onMouseDownHandler = clickedKey => {
-    addKeyToClickedKeys(clickedKey, 'mouse');
-  };
-
-  const onMouseUpOrLeaveHandler = clickedKey => {
-    RemoveKeyFromClickedKeys(clickedKey, 'mouse');
   };
 
   const PadButtons = ['Q', 'W', 'E', 'A', 'S', 'D', 'Y', 'X', 'C'].map(
