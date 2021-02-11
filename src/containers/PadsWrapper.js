@@ -12,6 +12,10 @@ const StyledComponent = styled.div`
   align-items: center;
   flex-wrap: wrap;
   padding: 10px;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
 
   @media (max-width: 650px) {
     width: 100%;
@@ -38,12 +42,12 @@ const Pads = props => {
     const key = event.key.toUpperCase();
     addKeyToClickedKeys(key, 'keyboard');
   };
-  
+
   const onKeyUpHandler = event => {
     const key = event.key.toUpperCase();
     RemoveKeyFromClickedKeys(key, 'keyboard');
   };
-  
+
   const addKeyToClickedKeys = (key, pressedBy) => {
     if (!clickedKeysRef.current.hasOwnProperty(key)) {
       const newClickedKeys = { ...clickedKeysRef.current, [key]: pressedBy };
@@ -67,22 +71,22 @@ const Pads = props => {
     RemoveKeyFromClickedKeys(clickedKey, 'mouse');
   };
 
-  const PadButtons = ['Q', 'W', 'E', 'A', 'S', 'D', 'Y', 'X', 'C'].map((char, index) => {
-    return <PadButton
-        key={index}
-        text={char}
-        onMouseDown={onMouseDownHandler}
-        onMouseUp={onMouseUpOrLeaveHandler}
-        onMouseLeave={onMouseUpOrLeaveHandler}
-        active={clickedKeys.hasOwnProperty(char)}
-      />;
-  })
-
-  return (
-    <StyledComponent>
-      {PadButtons}
-    </StyledComponent>
+  const PadButtons = ['Q', 'W', 'E', 'A', 'S', 'D', 'Y', 'X', 'C'].map(
+    (char, index) => {
+      return (
+        <PadButton
+          key={index}
+          text={char}
+          onMouseDown={onMouseDownHandler}
+          onMouseUp={onMouseUpOrLeaveHandler}
+          onMouseLeave={onMouseUpOrLeaveHandler}
+          active={clickedKeys.hasOwnProperty(char)}
+        />
+      );
+    }
   );
+
+  return <StyledComponent>{PadButtons}</StyledComponent>;
 };
 
 export default Pads;
