@@ -46,19 +46,15 @@ const Pads = props => {
 
   const onKeyUpHandler = event => {
     keyIsClicked = false;
+    setClickedKey('');
   }
 
-
-  useEffect(() => {
-    if (clickedKey !== '') {
-      setTimeout(() => {
-        setClickedKey('');
-      }, 80);
-    }
-  }, [clickedKey]);
-
-  const onClickHandler = clickedKey => {
+  const onMouseDownHandler = clickedKey => {
     setClickedKey(clickedKey.toUpperCase());
+  };
+
+  const onMouseUpHandler = () => {
+    setClickedKey('');
   };
 
 
@@ -66,47 +62,56 @@ const Pads = props => {
       <StyledComponent>
         <PadButton
           text="Q"
-          onClick={onClickHandler}
+          onMouseDown={onMouseDownHandler}
+          onMouseUp={onMouseUpHandler}
           active={clickedKey === 'Q'}
         />
         <PadButton
           text="W"
-          onClick={onClickHandler}
+          onMouseDown={onMouseDownHandler}
+          onMouseUp={onMouseUpHandler}
           active={clickedKey === 'W'}
         />
         <PadButton
           text="E"
-          onClick={onClickHandler}
+          onMouseDown={onMouseDownHandler}
+          onMouseUp={onMouseUpHandler}
           active={clickedKey === 'E'}
         />
         <PadButton
           text="A"
-          onClick={onClickHandler}
+          onMouseDown={onMouseDownHandler}
+          onMouseUp={onMouseUpHandler}
           active={clickedKey === 'A'}
         />
         <PadButton
           text="S"
-          onClick={onClickHandler}
+          onMouseDown={onMouseDownHandler}
+          onMouseUp={onMouseUpHandler}
           active={clickedKey === 'S'}
         />
         <PadButton
           text="D"
-          onClick={onClickHandler}
+          onMouseDown={onMouseDownHandler}
+          onMouseUp={onMouseUpHandler}
           active={clickedKey === 'D'}
         />
         <PadButton
           text="Y"
-          onClick={onClickHandler}
+          onMouseDown={onMouseDownHandler}
+          onMouseUp={onMouseUpHandler}
           active={clickedKey === 'Y'}
         />
         <PadButton
           text="X"
-          onClick={onClickHandler}
+          onMouseDown={onMouseDownHandler}
+          onMouseUp={onMouseUpHandler}
           active={clickedKey === 'X'}
         />
         <PadButton
           text="C"
-          onClick={onClickHandler}
+          onMouseDown={onMouseDownHandler}
+          onMouseUp={onMouseUpHandler}
           active={clickedKey === 'C'}
         />
       </StyledComponent>
