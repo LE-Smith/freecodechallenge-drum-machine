@@ -20,7 +20,7 @@ const StyledComponent = styled.div`
 const PadButton = props => {
 
     return (
-        <StyledComponent active={props.active} onClick={props.onClick.bind(this, props.text)}>
+        <StyledComponent active={props.active} onMouseDown={props.onClick.bind(this, props.text)}>
             {props.text}
         </StyledComponent>
     )
