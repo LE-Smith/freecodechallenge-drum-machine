@@ -54,7 +54,7 @@ const MenuWrapper = props => {
           <VolumeDown />
         </Grid>
         <Grid item xs>
-          <Slider value={props.volume} onChange={props.onChangeVolume} aria-labelledby="continuous-slider" />
+          <Slider disabled={!props.powerIsOn} value={props.volume} onChange={props.onChangeVolume} aria-labelledby="continuous-slider" />
         </Grid>
         <Grid item>
           <VolumeUp />
@@ -62,16 +62,17 @@ const MenuWrapper = props => {
       </Grid>
 
       <Grid style={styles.switch}  component="label" container alignItems="center" spacing={1}>
-        <Grid item>Korg</Grid>
+        <Grid item>Bank A</Grid>
         <Grid item>
           <Switch
             checked={props.bankBSelected}
             onChange={props.onChangeBank}
             color="default"
             name="checkedB"
+            disabled={!props.powerIsOn}
           />
         </Grid>
-        <Grid item>Technics</Grid>
+        <Grid item>Bank B</Grid>
       </Grid>
 
     </StyledComponent>

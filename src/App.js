@@ -29,7 +29,7 @@ const bankB = {
   "C": new Audio("./audio/technics_pcm_dp50/Tom4.wav")
 }
 
-
+const allowedKeys = ['Q', 'W', 'E', 'A', 'S', 'D', 'Y', 'X', 'C'];
 
 const AppWrapper = styled.div`
   background-color: #ddd;
@@ -67,6 +67,8 @@ function App() {
   const volumeRef = useRef(volume);
   volumeRef.current = volume;
 
+  const [textToDisplay, setTextToDisplay] = useState('please switch on!')
+
   const [clickedKeys, setClickedKeys] = useState({});
   const clickedKeysRef = useRef(clickedKeys);
   clickedKeysRef.current = clickedKeys;
@@ -75,6 +77,10 @@ function App() {
     const audio = bankBSelectedRef.current ? bankB[key] : bankA[key];
     audio.volume = volumeRef.current/100;
     audio.play();
+
+    const fileNameRegEx = /[^/]*.wav/;
+    const fileName = audio.src.match(fileNameRegEx)[0];
+    setTextToDisplay(fileName);
   }
   
   const stopAudioForKey = key => {
@@ -101,7 +107,7 @@ function App() {
   useEffect(() => {
     const onKeyDownHandler = event => {
       const key = event.key.toUpperCase();
-      if (!clickedKeysRef.current.hasOwnProperty(key)) {
+      if (!clickedKeysRef.current.hasOwnProperty(key) && allowedKeys.includes(key)) {
         addKeyToClickedKeys(key, 'keyboard');
       }
     };
@@ -114,7 +120,7 @@ function App() {
     };
 
     const onMouseDownHandler = event => {
-      const key = event.target.innerText.toUpperCase();
+      const key = event.target.innerText ? event.target.innerText.toUpperCase() : '';
       if (!clickedKeysRef.current.hasOwnProperty(key) && key.length === 1) {
         addKeyToClickedKeys(key, 'mouse');
       }
@@ -144,14 +150,17 @@ function App() {
 
   const onChangePowerHandler = (event) => {
     setPowerIsOn(event.target.checked)
+    setTextToDisplay(event.target.checked ? '' : 'please switch on!');
   }
 
   const onChangeBankHandler = (event) => {
-    setBankBSelected(event.target.checked)
+    setBankBSelected(event.target.checked);
+    setTextToDisplay(event.target.checked ? 'Technics' : 'Korg');
   }
 
   const onChangeVolume = (event, newValue) => {
     setVolume(newValue);
+    setTextToDisplay(`Volume: ${newValue}`);
   }
 
   return (
@@ -161,7 +170,7 @@ function App() {
         <MenuWrapper 
           powerIsOn={powerIsOn}
           onChangePower={onChangePowerHandler}
-          textToDisplay="test"
+          textToDisplay={textToDisplay}
           volume={volume}
           onChangeVolume={onChangeVolume}
           bankBSelected={bankBSelected}
