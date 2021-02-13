@@ -32,7 +32,16 @@ function App() {
     <AppWrapper>
       <MuiThemeProvider theme={theme}>
         <PadsWrapper />
-        <MenuWrapper />
+        <MenuWrapper 
+          powerIsOn={true}
+          onChangePower={() => console.log('powerChange')}
+          textToDisplay="Shit happens ..."
+          volume={80}
+          onChangeVolume={() => console.log('Volume changed')}
+          bankBSelected={true}
+          onChangeBank={() => console.log('bank changed')}
+        
+        />
       </MuiThemeProvider>
     </AppWrapper>
   );

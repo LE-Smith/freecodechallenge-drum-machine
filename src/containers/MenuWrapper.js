@@ -11,7 +11,6 @@ import Display from '../components/Display';
 const StyledComponent = styled.div`
   width: 40%;
   height: 100%;
-  /* background-color: green; */
   padding: 10px;
   box-sizing: border-box;
   display: flex;
@@ -39,8 +38,8 @@ const MenuWrapper = props => {
         <Grid item>Off</Grid>
         <Grid item>
           <Switch
-            // checked={state.checkedB}
-            // onChange={handleChange}
+            checked={props.powerIsOn}
+            onChange={props.onChangePower}
             color="default"
             name="checkedB"
           />
@@ -48,16 +47,14 @@ const MenuWrapper = props => {
         <Grid item>On</Grid>
       </Grid>
 
-      <Display text="Test Text" />
+      <Display text={props.textToDisplay} />
 
       <Grid container spacing={2}>
         <Grid item>
           <VolumeDown />
         </Grid>
         <Grid item xs>
-          <Slider aria-labelledby="continuous-slider" />
-          {/* <Slider value={value} onChange={handleChange} aria-labelledby="continuous-slider" /> */}
-
+          <Slider value={props.volume} onChange={props.onChangeVolume} aria-labelledby="continuous-slider" />
         </Grid>
         <Grid item>
           <VolumeUp />
@@ -68,8 +65,8 @@ const MenuWrapper = props => {
         <Grid item>Korg</Grid>
         <Grid item>
           <Switch
-            // checked={state.checkedB}
-            // onChange={handleChange}
+            checked={props.bankBSelected}
+            onChange={props.onChangeBank}
             color="default"
             name="checkedB"
           />
