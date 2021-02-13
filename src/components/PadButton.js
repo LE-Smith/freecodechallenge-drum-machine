@@ -22,9 +22,6 @@ const PadButton = props => {
   return (
     <StyledComponent
       active={props.active}
-      onMouseDown={props.onMouseDown.bind(this, props.text)}
-      onMouseUp={props.onMouseUp.bind(this, props.text)}
-      onMouseLeave={props.onMouseLeave.bind(this, props.text)}
     >
       {props.text}
     </StyledComponent>
