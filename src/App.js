@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import PadsWrapper from './containers/PadsWrapper';
 import MenuWrapper from './containers/MenuWrapper';
@@ -18,12 +19,21 @@ const AppWrapper = styled.div`
   }
 `;
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#666',
+    },
+  },
+});
 
 function App() {
   return (
     <AppWrapper>
-      <PadsWrapper /> 
-      <MenuWrapper />
+      <MuiThemeProvider theme={theme}>
+        <PadsWrapper />
+        <MenuWrapper />
+      </MuiThemeProvider>
     </AppWrapper>
   );
 }
