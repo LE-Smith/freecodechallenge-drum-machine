@@ -12,7 +12,7 @@ const bankA = {
   "A": new Audio("./audio/korg_ddd_1/clhh1.wav"),
   "S": new Audio("./audio/korg_ddd_1/crash.wav"),
   "D": new Audio("./audio/korg_ddd_1/snare1.wav"),
-  "Y": new Audio("./audio/korg_ddd_1/snare2.wav"),
+  "Z": new Audio("./audio/korg_ddd_1/snare2.wav"),
   "X": new Audio("./audio/korg_ddd_1/tom2.wav"),
   "C": new Audio("./audio/korg_ddd_1/tom3.wav")
 }
@@ -24,12 +24,12 @@ const bankB = {
   "A": new Audio("./audio/technics_pcm_dp50/Conga2.wav"),
   "S": new Audio("./audio/technics_pcm_dp50/Ride.wav"),
   "D": new Audio("./audio/technics_pcm_dp50/Snare.wav"),
-  "Y": new Audio("./audio/technics_pcm_dp50/Tom2.wav"),
+  "Z": new Audio("./audio/technics_pcm_dp50/Tom2.wav"),
   "X": new Audio("./audio/technics_pcm_dp50/Tom3.wav"),
   "C": new Audio("./audio/technics_pcm_dp50/Tom4.wav")
 }
 
-const allowedKeys = ['Q', 'W', 'E', 'A', 'S', 'D', 'Y', 'X', 'C'];
+const allowedKeys = ['Q', 'W', 'E', 'A', 'S', 'D', 'Z', 'X', 'C'];
 
 const AppWrapper = styled.div`
   background-color: #ddd;
@@ -163,8 +163,16 @@ function App() {
     setTextToDisplay(`Volume: ${newValue}`);
   }
 
+    // add drum-pad classes to pass the freecode-camp-test
+    useEffect(() => {
+      const drumpads = document.querySelectorAll('#pads-wrapper div');
+      drumpads.forEach((drumpad) => {
+        drumpad.classList.add('drum-pad');
+      })
+    }, []);
+
   return (
-    <AppWrapper>
+    <AppWrapper id="drum-machine">
       <MuiThemeProvider theme={theme}>
         <PadsWrapper clickedKeys={clickedKeys} powerIsOn={powerIsOn}/>
         <MenuWrapper 

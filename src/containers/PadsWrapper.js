@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import PadButton from '../components/PadButton';
@@ -23,19 +23,20 @@ const StyledComponent = styled.div`
 
 const Pads = props => {
 
-  const PadButtons = ['Q', 'W', 'E', 'A', 'S', 'D', 'Y', 'X', 'C'].map(
+  const PadButtons = ['Q', 'W', 'E', 'A', 'S', 'D', 'Z', 'X', 'C'].map(
     (char, index) => {
       return (
         <PadButton
+          id="why"
           key={index}
           text={char}
           active={props.clickedKeys.hasOwnProperty(char)}
-        />
+          />
       );
     }
   );
 
-  return <StyledComponent powerIsOn={props.powerIsOn} >{PadButtons}</StyledComponent>;
+  return <StyledComponent powerIsOn={props.powerIsOn} id="pads-wrapper">{PadButtons}</StyledComponent>;
 };
 
 export default Pads;

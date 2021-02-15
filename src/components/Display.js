@@ -13,7 +13,7 @@ const StyledComponent = styled.div`
 
 const Display = props => {
     return (
-        <StyledComponent>
+        <StyledComponent id="display">
             {props.text}
         </StyledComponent>
     )
