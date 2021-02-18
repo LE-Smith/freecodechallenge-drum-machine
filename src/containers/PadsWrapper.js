@@ -23,11 +23,13 @@ const StyledComponent = styled.div`
 
 const Pads = props => {
 
+  const activeBank = props.activeBank;
+
   const PadButtons = ['Q', 'W', 'E', 'A', 'S', 'D', 'Z', 'X', 'C'].map(
     (char, index) => {
       return (
         <PadButton
-          id="why"
+          src={activeBank[char]}
           key={index}
           text={char}
           active={props.clickedKeys.hasOwnProperty(char)}

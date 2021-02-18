@@ -6,27 +6,27 @@ import PadsWrapper from './containers/PadsWrapper';
 import MenuWrapper from './containers/MenuWrapper';
 
 const bankA = {
-  "Q": new Audio("./audio/korg_ddd_1/bass1.wav"),
-  "W": new Audio("./audio/korg_ddd_1/bass2.wav"),
-  "E": new Audio("./audio/korg_ddd_1/claps.wav"),
-  "A": new Audio("./audio/korg_ddd_1/clhh1.wav"),
-  "S": new Audio("./audio/korg_ddd_1/crash.wav"),
-  "D": new Audio("./audio/korg_ddd_1/snare1.wav"),
-  "Z": new Audio("./audio/korg_ddd_1/snare2.wav"),
-  "X": new Audio("./audio/korg_ddd_1/tom2.wav"),
-  "C": new Audio("./audio/korg_ddd_1/tom3.wav")
+  "Q": "./audio/korg_ddd_1/bass1.wav",
+  "W": "./audio/korg_ddd_1/bass2.wav",
+  "E": "./audio/korg_ddd_1/claps.wav",
+  "A": "./audio/korg_ddd_1/clhh1.wav",
+  "S": "./audio/korg_ddd_1/crash.wav",
+  "D": "./audio/korg_ddd_1/snare1.wav",
+  "Z": "./audio/korg_ddd_1/snare2.wav",
+  "X": "./audio/korg_ddd_1/tom2.wav",
+  "C": "./audio/korg_ddd_1/tom3.wav"
 }
 
 const bankB = {
-  "Q": new Audio("./audio/technics_pcm_dp50/BD.wav"),
-  "W": new Audio("./audio/technics_pcm_dp50/Clap.wav"),
-  "E": new Audio("./audio/technics_pcm_dp50/Conga1.wav"),
-  "A": new Audio("./audio/technics_pcm_dp50/Conga2.wav"),
-  "S": new Audio("./audio/technics_pcm_dp50/Ride.wav"),
-  "D": new Audio("./audio/technics_pcm_dp50/Snare.wav"),
-  "Z": new Audio("./audio/technics_pcm_dp50/Tom2.wav"),
-  "X": new Audio("./audio/technics_pcm_dp50/Tom3.wav"),
-  "C": new Audio("./audio/technics_pcm_dp50/Tom4.wav")
+  "Q": "./audio/technics_pcm_dp50/BD.wav",
+  "W": "./audio/technics_pcm_dp50/Clap.wav",
+  "E": "./audio/technics_pcm_dp50/Conga1.wav",
+  "A": "./audio/technics_pcm_dp50/Conga2.wav",
+  "S": "./audio/technics_pcm_dp50/Ride.wav",
+  "D": "./audio/technics_pcm_dp50/Snare.wav",
+  "Z": "./audio/technics_pcm_dp50/Tom2.wav",
+  "X": "./audio/technics_pcm_dp50/Tom3.wav",
+  "C": "./audio/technics_pcm_dp50/Tom4.wav"
 }
 
 const allowedKeys = ['Q', 'W', 'E', 'A', 'S', 'D', 'Z', 'X', 'C'];
@@ -74,21 +74,16 @@ function App() {
   clickedKeysRef.current = clickedKeys;
 
   const playAudioForKey = key => {
-    const audio = bankBSelectedRef.current ? bankB[key] : bankA[key];
-    audio.volume = volumeRef.current/100;
-    audio.play();
+    const audioEl = document.getElementById(key);
+    audioEl.volume = volumeRef.current/100;
+    audioEl.currentTime = 0;
+    audioEl.play();
 
     const fileNameRegEx = /[^/]*.wav/;
-    const fileName = audio.src.match(fileNameRegEx)[0];
+    const fileName = audioEl.src.match(fileNameRegEx)[0];
     setTextToDisplay(fileName);
   }
   
-  const stopAudioForKey = key => {
-    const audio = bankBSelectedRef.current ? bankB[key] : bankA[key];
-    audio.pause();
-    audio.currentTime = 0;
-  }
- 
   const addKeyToClickedKeys = (key, pressedBy) => {
     if (!powerIsOnRef.current) return;
     const newClickedKeys = { ...clickedKeysRef.current, [key]: pressedBy };
@@ -100,7 +95,6 @@ function App() {
     const newClickedKeys = { ...clickedKeysRef.current };
     delete newClickedKeys[key];
     setClickedKeys(newClickedKeys);
-    stopAudioForKey(key);
   };
 
 
@@ -163,18 +157,12 @@ function App() {
     setTextToDisplay(`Volume: ${newValue}`);
   }
 
-    // add drum-pad classes to pass the freecode-camp-test
-    useEffect(() => {
-      const drumpads = document.querySelectorAll('#pads-wrapper div');
-      drumpads.forEach((drumpad) => {
-        drumpad.classList.add('drum-pad');
-      })
-    }, []);
+  const activeBank = bankBSelected ? bankB : bankA;
 
   return (
     <AppWrapper id="drum-machine">
       <MuiThemeProvider theme={theme}>
-        <PadsWrapper clickedKeys={clickedKeys} powerIsOn={powerIsOn}/>
+        <PadsWrapper clickedKeys={clickedKeys} powerIsOn={powerIsOn} activeBank={activeBank}/>
         <MenuWrapper 
           powerIsOn={powerIsOn}
           onChangePower={onChangePowerHandler}

@@ -22,8 +22,11 @@ const PadButton = props => {
   return (
     <StyledComponent
       active={props.active}
+      id={props.src}
+      className="drum-pad"
     >
       {props.text}
+      <audio src={props.src} className="clip" id={props.text} />
     </StyledComponent>
   );
 };
